@@ -11,7 +11,8 @@ const COLLECTIONS = {
   packs: { symbol: 'mudwater_packs', label: 'Packs',  icon: '🃏', color: '#7dd3fc', floorSol: 0.6857 },
   boxes: { symbol: 'mudwater_boxes', label: 'Boxes',  icon: '📦', color: '#c084fc', floorSol: 17.05  },
 };
-const ME_API    = 'https://api-mainnet.magiceden.dev/v2';
+// All ME requests go through our CF Worker proxy (adds CORS headers)
+const ME_API    = 'https://mudwater-proxy.saintsola13.workers.dev/proxy';
 const ME_ITEM   = addr => `https://magiceden.us/item-details/${addr}`;
 const STORE_PRO = 'mudwater_profiles';
 const STORE_COL = 'mudwater_collectors';
