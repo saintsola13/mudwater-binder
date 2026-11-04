@@ -57,6 +57,16 @@
   <div class="modal">
     <h2 class="modal-title">Set Up Your Profile</h2>
     <p class="modal-sub">Other collectors will see this.</p>
+    <!-- PFP picker -->
+    <div class="pfp-picker-wrap">
+      <div class="pfp-preview" id="pfpPreview"></div>
+      <div class="pfp-pick-actions">
+        <button type="button" class="btn-ghost small" id="pfpPickBtn">📷 Choose Photo</button>
+        <span class="pfp-hint">JPG, PNG, GIF · max 2 MB</span>
+      </div>
+      <input type="file" id="pfpFileInput" accept="image/*" class="hidden" />
+    </div>
+
     <div class="form-group">
       <label>Display Name</label>
       <input type="text" id="profileName" placeholder="e.g. SwampLord_9000" maxlength="32" />

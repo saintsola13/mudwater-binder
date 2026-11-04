@@ -568,6 +568,49 @@ body {
   gap: 4px; font-size: 11px; color: var(--text3); letter-spacing: .05em;
 }
 
+/* ══ PFP PICKER ══════════════════════════════════════ */
+.pfp-picker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.pfp-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-dim), var(--green));
+  border: 2px solid var(--gold-dim);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  overflow: hidden;
+}
+.pfp-preview:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,.2);
+}
+.pfp-pick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pfp-hint {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: .04em;
+}
+
 /* ══ UTILS ══════════════════════════════════════════ */
 .hidden { display: none !important; }
 
