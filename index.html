@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MUDWATER BINDER — Swamp Origins</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- ══ HEADER ════════════════════════════════════ -->
+<header id="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-mark">꩜</span>
+      <span class="logo-text">MUDWATER<span class="logo-sub">BINDER</span></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#" class="nav-link" id="navHome">Home</a>
+      <a href="#" class="nav-link" id="navBinder">My Binder</a>
+      <a href="#" class="nav-link" id="navSearch">Collectors</a>
+    </nav>
+    <div class="wallet-zone">
+      <button class="btn-connect" id="btnConnect">Connect Wallet</button>
+      <div class="wallet-info hidden" id="walletInfo">
+        <span class="wallet-addr" id="walletAddr"></span>
+        <button class="btn-disconnect" id="btnDisconnect">✕</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ HERO ══════════════════════════════════════ -->
+<section class="hero" id="pageHome">
+  <div class="hero-eyebrow">Swamp Origins · Solana</div>
+  <h1 class="hero-title">Your cards.<br/>Your binder.</h1>
+  <p class="hero-sub">Connect your Solana wallet read-only. View your Mudwater boxes, packs, and cards all in one place. Share your binder. Download the flip.</p>
+  <div class="hero-ctas">
+    <button class="btn-primary" id="heroConnect">Connect Wallet</button>
+    <button class="btn-ghost" id="heroBrowse">Browse Collectors</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">10K</span><span class="stat-label">Boxes</span></div>
+    <div class="stat"><span class="stat-num">240K</span><span class="stat-label">Packs</span></div>
+    <div class="stat"><span class="stat-num">120</span><span class="stat-label">Card Types</span></div>
+    <div class="stat"><span class="stat-num">2.4M</span><span class="stat-label">Total Cards</span></div>
+  </div>
+</section>
+
+<!-- ══ PROFILE MODAL ═════════════════════════════ -->
+<div class="modal-overlay hidden" id="profileModal">
+  <div class="modal">
+    <h2 class="modal-title">Set Up Your Profile</h2>
+    <p class="modal-sub">Other collectors will see this.</p>
+    <div class="form-group">
+      <label>Display Name</label>
+      <input type="text" id="profileName" placeholder="e.g. SwampLord_9000" maxlength="32" />
+    </div>
+    <div class="form-group">
+      <label>Twitter / X Handle <span class="optional">(optional)</span></label>
+      <input type="text" id="profileTwitter" placeholder="@handle" maxlength="32" />
+    </div>
+    <div class="form-group">
+      <label>Bio <span class="optional">(optional)</span></label>
+      <textarea id="profileBio" placeholder="Collecting the swamp one card at a time." maxlength="140" rows="3"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="saveProfile">Enter the Swamp</button>
+      <button class="btn-ghost" id="skipProfile">Skip</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BINDER PAGE ════════════════════════════════ -->
+<section class="page hidden" id="pageBinder">
+
+  <!-- identity -->
+  <div class="binder-header">
+    <div class="binder-identity">
+      <div class="binder-avatar" id="binderAvatar"></div>
+      <div class="binder-meta">
+        <h2 id="binderName">Unnamed Collector</h2>
+        <div class="binder-wallet-short" id="binderWalletShort"></div>
+        <div class="binder-twitter hidden" id="binderTwitter"></div>
+        <div class="binder-bio hidden" id="binderBio"></div>
+      </div>
+    </div>
+    <div class="binder-actions">
+      <button class="btn-ghost small hidden" id="editProfile">Edit Profile</button>
+      <button class="btn-primary small hidden" id="btnDownload">⬇ Download Flip</button>
+      <button class="btn-share small" id="btnShare">⤴ Share</button>
+    </div>
+  </div>
+
+  <!-- top-level totals -->
+  <div class="binder-totals" id="binderTotals">
+    <div class="total-pill" id="totalBoxes">
+      <span class="total-icon">📦</span>
+      <span class="total-num" id="numBoxes">—</span>
+      <span class="total-label">Boxes</span>
+    </div>
+    <div class="total-pill" id="totalPacks">
+      <span class="total-icon">🃏</span>
+      <span class="total-num" id="numPacks">—</span>
+      <span class="total-label">Packs</span>
+    </div>
+    <div class="total-pill" id="totalCards">
+      <span class="total-icon">🎴</span>
+      <span class="total-num" id="numCards">—</span>
+      <span class="total-label">Cards</span>
+    </div>
+    <div class="total-pill accent" id="totalValue">
+      <span class="total-icon">◎</span>
+      <span class="total-num" id="numValue">—</span>
+      <span class="total-label">Est. Floor Value</span>
+    </div>
+  </div>
+
+  <!-- binder type tabs -->
+  <div class="binder-tabs">
+    <button class="binder-tab active" data-tab="cards" id="tabCards">
+      <span class="tab-icon">🎴</span> Cards
+      <span class="tab-count" id="tabCountCards">0</span>
+    </button>
+    <button class="binder-tab" data-tab="packs" id="tabPacks">
+      <span class="tab-icon">🃏</span> Packs
+      <span class="tab-count" id="tabCountPacks">0</span>
+    </button>
+    <button class="binder-tab" data-tab="boxes" id="tabBoxes">
+      <span class="tab-icon">📦</span> Boxes
+      <span class="tab-count" id="tabCountBoxes">0</span>
+    </button>
+  </div>
+
+  <!-- filter bar -->
+  <div class="filter-bar">
+    <input type="text" id="searchItems" placeholder="Search…" />
+    <select id="filterRarity" class="hidden">
+      <option value="all">All Rarities</option>
+      <option value="standard">Standard</option>
+      <option value="foil">Foil</option>
+      <option value="serialized">Serialized</option>
+      <option value="cracked-ice">Cracked Ice</option>
+    </select>
+    <div class="view-toggle">
+      <button class="vtog active" id="viewGrid" title="Grid">▦</button>
+      <button class="vtog" id="viewList" title="List">☰</button>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div class="loading-state hidden" id="loadingCards">
+    <div class="swamp-loader"></div>
+    <p>Fetching from the swamp…</p>
+  </div>
+  <div class="empty-state hidden" id="emptyCards">
+    <p>Nothing found in this wallet for this category.</p>
+  </div>
+  <div class="card-grid" id="cardGrid"></div>
+
+</section>
+
+<!-- ══ COLLECTORS PAGE ════════════════════════════ -->
+<section class="page hidden" id="pageSearch">
+  <div class="search-header">
+    <h2>Find a Collector</h2>
+    <p>Enter a Solana wallet address or display name to view their binder.</p>
+  </div>
+  <div class="search-bar-wrap">
+    <input type="text" id="searchWallet" placeholder="Wallet address or display name…" />
+    <button class="btn-primary" id="btnSearchWallet">View Binder</button>
+  </div>
+  <div class="collectors-list" id="collectorsList"></div>
+</section>
+
+<!-- ══ CARD DETAIL MODAL ══════════════════════════ -->
+<div class="modal-overlay hidden" id="cardModal">
+  <div class="modal card-modal">
+    <button class="modal-close" id="closeCardModal">✕</button>
+    <div class="card-modal-inner">
+      <div class="card-modal-img-wrap" id="cardModalImgWrap"></div>
+      <div class="card-modal-info">
+        <div class="card-modal-type" id="cardModalType"></div>
+        <div class="card-modal-rarity" id="cardModalRarity"></div>
+        <h3 class="card-modal-name" id="cardModalName"></h3>
+        <div class="card-modal-serial" id="cardModalSerial"></div>
+        <div class="card-modal-attrs" id="cardModalAttrs"></div>
+        <a class="btn-primary small block-btn" id="cardModalME" href="#" target="_blank" rel="noopener">View on Magic Eden</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══════════════════════════════════════ -->
+<div class="toast hidden" id="toast"></div>
+
+<footer class="site-footer">
+  <div>MUDWATER BINDER · Unofficial fan tool · Not affiliated with Yuga Labs</div>
+  <div>Read-only · No transactions · Your keys stay yours</div>
+</footer>
+
+<script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
